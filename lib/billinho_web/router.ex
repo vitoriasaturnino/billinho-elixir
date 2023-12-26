@@ -9,6 +9,7 @@ defmodule BillinhoWeb.Router do
     pipe_through :api
 
     resources "/educational_institutions", EducationalInstitutionsController, except: [:new, :edit]
+    resources "/students", StudentsController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
