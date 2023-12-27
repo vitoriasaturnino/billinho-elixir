@@ -10,6 +10,8 @@ defmodule Billinho.Enrollment do
 
     belongs_to :educational_institution, Billinho.EducationalInstitution
     belongs_to :student, Billinho.Student
+
+    has_many :bills, Billinho.Bill
   end
 
   @doc false
