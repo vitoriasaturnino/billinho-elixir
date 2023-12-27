@@ -7,6 +7,8 @@ defmodule Billinho.EducationalInstitution do
     field :cnpj, :string
     field :type, :string
 
+    has_many :enrollments, Billinho.Enrollment
+
     timestamps(type: :utc_datetime)
   end
 

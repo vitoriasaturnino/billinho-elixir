@@ -10,6 +10,8 @@ defmodule Billinho.Student do
     field :genre, :string
     field :payment_method, :string
 
+    has_many :enrollments, Billinho.Enrollment
+
     timestamps(type: :utc_datetime)
   end
 

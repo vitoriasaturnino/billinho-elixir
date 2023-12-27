@@ -10,6 +10,7 @@ defmodule BillinhoWeb.Router do
 
     resources "/educational_institutions", EducationalInstitutionsController, except: [:new, :edit]
     resources "/students", StudentsController, except: [:new, :edit]
+    resources "/enrollments", EnrollmentsController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
