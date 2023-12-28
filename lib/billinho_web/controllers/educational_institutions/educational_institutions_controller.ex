@@ -13,7 +13,7 @@ defmodule BillinhoWeb.EducationalInstitutionsController do
 
   def show(conn, %{"id" => id}) do
     educational_institution = EducationalInstitutions.get_educational_institution!(id)
-    render(conn, "show.json", educational_institution: educational_institution)
+    render(conn, "show.json", educational_institutions: educational_institution)
   end
 
   def create(conn, %{"educational_institutions" => educational_institution_params}) do
@@ -25,7 +25,7 @@ defmodule BillinhoWeb.EducationalInstitutionsController do
           "location",
           ~p"/api/educational_institutions/#{educational_institution.id}"
         )
-        |> render("show.json", educational_institution: educational_institution)
+        |> render("show.json", educational_institutions: educational_institution)
 
       error ->
         error
@@ -47,7 +47,7 @@ defmodule BillinhoWeb.EducationalInstitutionsController do
           "location",
           ~p"/api/educational_institutions/#{educational_institution.id}"
         )
-        |> render(:show, educational_institution: educational_institution)
+        |> render(:show, educational_institutions: educational_institution)
 
       error ->
         error
