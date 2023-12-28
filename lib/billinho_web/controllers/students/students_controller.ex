@@ -13,10 +13,12 @@ defmodule BillinhoWeb.StudentsController do
 
   def show(conn, %{"id" => id}) do
     student = Students.get_student!(id)
-    render(conn, "show.json", student: student)
+    render(conn, "show.json", students: student)
   end
 
   def create(conn, %{"students" => student_params}) do
+    student_params = format_dates(student_params)
+
     case Students.create_student(student_params) do
       {:ok, student} ->
         conn
@@ -25,7 +27,7 @@ defmodule BillinhoWeb.StudentsController do
           "location",
           ~p"/api/students/#{student.id}"
         )
-        |> render("show.json", student: student)
+        |> render("show.json", students: student)
 
       error ->
         error
@@ -46,7 +48,7 @@ defmodule BillinhoWeb.StudentsController do
           "location",
           ~p"/api/students/#{student.id}"
         )
-        |> render(:show, student: student)
+        |> render(:show, students: student)
 
       error ->
         error
@@ -63,5 +65,9 @@ defmodule BillinhoWeb.StudentsController do
       error ->
         error
     end
+  end
+
+  defp format_dates(%{"birth_date" => birth_date} = student_params) do
+    Map.put(student_params, "birth_date", Date.from_iso8601!(birth_date))
   end
 end
