@@ -1,8 +1,7 @@
 defmodule Billinho.Enrollments do
   import Ecto.Query, warn: false
 
-  alias Billinho.Enrollment
-  alias Billinho.Repo
+  alias Billinho.{Enrollment, Repo, Bills}
 
   def list_enrollments do
     Repo.all(Enrollment)
@@ -12,14 +11,11 @@ defmodule Billinho.Enrollments do
     Repo.get!(Enrollment, id)
   end
 
-  @spec create_enrollment(
-          :invalid
-          | %{optional(:__struct__) => none(), optional(atom() | binary()) => any()}
-        ) :: any()
-  def create_enrollment(attrs \\ %{}) do
-    %Enrollment{}
-    |> Enrollment.changeset(attrs)
-    |> Repo.insert()
+  def create(attrs \\ %{}) do
+    with {:ok, enrollment} <- create_enrollment(attrs),
+      _bills  <- create_bill(enrollment) do
+      {:ok, enrollment}
+    end
   end
 
   def update_enrollment(%Enrollment{} = enrollment, attrs) do
@@ -31,4 +27,26 @@ defmodule Billinho.Enrollments do
   def delete_enrollment(%Enrollment{} = enrollment) do
     Repo.delete(enrollment)
   end
+
+  defp create_enrollment(enrollment_params) do
+    %Enrollment{}
+    |> Enrollment.changeset(enrollment_params)
+    |> Repo.insert()
+  end
+
+  defp create_bill(enrollment) do
+    for _ <- 1..enrollment.installments do
+      bill_params = build_bill_params(enrollment)
+      Bills.create_bill(bill_params)
+    end
+  end
+
+    defp build_bill_params(enrollment) do
+      %{
+        amount: enrollment.amount / enrollment.installments,
+        due_date: Date.utc_today() |> Date.add(enrollment.due_day),
+        status: :open,
+        enrollment_id: enrollment.id
+      }
+    end
 end

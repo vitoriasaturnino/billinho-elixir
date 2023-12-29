@@ -17,7 +17,7 @@ defmodule BillinhoWeb.EnrollmentsController do
   end
 
   def create(conn, %{"enrollments" => enrollment_params}) do
-    case Enrollments.create_enrollment(enrollment_params) do
+    case Enrollments.create(enrollment_params) do
       {:ok, enrollment} ->
         conn
         |> put_status(:created)

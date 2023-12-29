@@ -16,7 +16,7 @@ defmodule BillinhoWeb.BillsController do
     render(conn, "show.json", bill: bill)
   end
 
-  def create(conn, %{"bills" => bill_params}) do
+  def create_bill(conn, %{"bills" => bill_params}) do
     case Bills.create_bill(bill_params) do
       {:ok, bill} ->
         conn
