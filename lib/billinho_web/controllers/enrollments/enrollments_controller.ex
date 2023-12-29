@@ -13,7 +13,7 @@ defmodule BillinhoWeb.EnrollmentsController do
 
   def show(conn, %{"id" => id}) do
     enrollment = Enrollments.get_enrollment!(id)
-    render(conn, "show.json", enrollment: enrollment)
+    render(conn, "show.json", enrollments: enrollment)
   end
 
   def create(conn, %{"enrollments" => enrollment_params}) do
@@ -24,10 +24,10 @@ defmodule BillinhoWeb.EnrollmentsController do
         |> put_resp_header(
           "location",
           ~p"/api/enrollments/#{enrollment.id}"
-        )
-        |> render("show.json", enrollment: enrollment)
+          )
+          |> render("show.json", enrollments: enrollment)
 
-      error ->
+          error ->
         error
     end
   end
@@ -46,7 +46,7 @@ defmodule BillinhoWeb.EnrollmentsController do
           "location",
           ~p"/api/enrollments/#{enrollment.id}"
         )
-        |> render(:show, enrollment: enrollment)
+        |> render(:show, enrollments: enrollment)
 
       error ->
         error
